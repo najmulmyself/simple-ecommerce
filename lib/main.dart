@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:simple_commerce/screens/home_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_commerce/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +13,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      builder: (context, chlid) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen(),
+
+        );
+      },
     );
   }
 }
