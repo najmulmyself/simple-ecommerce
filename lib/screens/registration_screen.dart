@@ -1,8 +1,12 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_commerce/const/appColors.dart';
+import 'package:simple_commerce/screens/user_form.dart';
 
 import 'login_screen.dart';
 
@@ -14,9 +18,48 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscureText = true;
+
+  signUp() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+      var authCredential = userCredential.user;
+      print(authCredential);
+      print(authCredential!.uid);
+      if (authCredential.uid.isNotEmpty) {
+        Fluttertoast.showToast(
+            msg: "Sign Up Successful", backgroundColor: Colors.greenAccent);
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (_) => UserForm(),
+          ),
+        );
+      } else {
+        Fluttertoast.showToast(msg: "Something is wrong");
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      if (e.code == 'weak-password') {
+        Fluttertoast.showToast(
+          msg: "The password provided is too weak.",
+          backgroundColor: Colors.red,
+        );
+      } else if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(
+          msg: "The account already exists for that email.",
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (e) {
+      print("Error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,6 +147,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                             Expanded(
                               child: TextField(
+                                controller: _emailController,
                                 decoration: InputDecoration(
                                   hintText: "test@gamil.com",
                                   hintStyle: TextStyle(
@@ -150,6 +194,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                             Expanded(
                               child: TextField(
+                                controller: _passwordController,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
                                   hintText: "password must be 6 characters",
@@ -208,7 +253,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           height: 45.h,
                           child: ElevatedButton(
                             onPressed: () {
-                              // signUp();
+                              signUp();
                             },
                             child: Text(
                               "Sign Up",

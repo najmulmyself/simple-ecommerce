@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -213,7 +213,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               "Sign In",
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 18.sp),
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                              ),
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.deepOrange,
