@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_commerce/const/appColors.dart';
-import 'package:simple_commerce/screens/home_page.dart';
 import 'package:simple_commerce/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +17,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     Timer(
       Duration(seconds: 3),
       () => Navigator.push(
