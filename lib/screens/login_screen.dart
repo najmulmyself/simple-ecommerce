@@ -1,10 +1,13 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_commerce/const/appColors.dart';
 import 'package:simple_commerce/screens/registration_screen.dart';
+import 'package:simple_commerce/screens/user_form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +20,44 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
+  signIn() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+      var authCredential = userCredential.user;
+      print(authCredential);
+      print(authCredential!.uid);
+      if (authCredential.uid.isNotEmpty) {
+        Fluttertoast.showToast(
+            msg: "Sign In Successful", backgroundColor: Colors.greenAccent);
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (_) => UserForm(),
+          ),
+        );
+      } else {
+        Fluttertoast.showToast(msg: "Something is wrong");
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      // if (e.code == 'weak-password') {
+      //   Fluttertoast.showToast(
+      //     msg: "The password provided is too weak.",
+      //     backgroundColor: Colors.red,
+      //   );
+      // } else if (e.code == 'email-already-in-use') {
+      //   Fluttertoast.showToast(
+      //     msg: "The account already exists for that email.",
+      //     backgroundColor: Colors.red,
+      //   );
+      // }
+    } catch (e) {
+      print("Error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,6 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               // signUp();
+                              signIn();
                             },
                             child: Text(
                               "Sign In",
