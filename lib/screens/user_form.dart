@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_commerce/component/customBtn.dart';
 
 import '../const/appColors.dart';
 
@@ -47,13 +48,23 @@ class _UserFormState extends State<UserForm> {
                 SizedBox(
                   height: 15.h,
                 ),
-                // myTextField("enter your name",TextInputType.text,_nameController),
-                // myTextField("enter your phone number",TextInputType.number,_phoneController),
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    hintText: "Enter your name",
+                  ),
+                ),
+                TextField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    hintText: "Enter your phone number",
+                  ),
+                ),
                 TextField(
                   controller: _dobController,
                   readOnly: true,
                   decoration: InputDecoration(
-                    hintText: "date of birth",
+                    hintText: "Date of birth",
                     suffixIcon: IconButton(
                       onPressed: () {},
                       // onPressed: () => _selectDateFromPicker(context),
@@ -65,12 +76,12 @@ class _UserFormState extends State<UserForm> {
                   controller: _genderController,
                   readOnly: true,
                   decoration: InputDecoration(
-                    hintText: "choose your gender",
+                    hintText: "Choose your gender",
                     prefixIcon: DropdownButton<String>(
                       items: gender.map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: new Text(value),
+                          child: Text(value),
                           onTap: () {
                             setState(() {
                               _genderController.text = value;
@@ -82,14 +93,16 @@ class _UserFormState extends State<UserForm> {
                     ),
                   ),
                 ),
-                // myTextField("enter your age",TextInputType.number,_ageController),
-
+                TextField(
+                  controller: _ageController,
+                  decoration: const InputDecoration(
+                    hintText: "Enter your age",
+                  ),
+                ),
                 SizedBox(
                   height: 50.h,
                 ),
-
-                // elevated button
-                //  customButton("Continue",()=>sendUserDataToDB()),
+                customButton("Continue", () {})
               ],
             ),
           ),
