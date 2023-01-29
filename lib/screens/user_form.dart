@@ -26,10 +26,14 @@ class _UserFormState extends State<UserForm> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2025),
     );
-    if (picked != null)
-      setState(() {
-        _dobController.text = "${picked.day}/ ${picked.month}/ ${picked.year}";
-      });
+    if (picked != null) {
+      setState(
+        () {
+          _dobController.text =
+              "${picked.day}/ ${picked.month}/ ${picked.year}";
+        },
+      );
+    }
   }
 
   @override
