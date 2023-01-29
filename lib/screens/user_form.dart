@@ -12,12 +12,25 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _dobController = TextEditingController();
-  TextEditingController _genderController = TextEditingController();
-  TextEditingController _ageController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
   List<String> gender = ["Male", "Female", "Other"];
+
+  Future<void> _selectDateFromPicker(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null)
+      setState(() {
+        _dobController.text = "${picked.day}/ ${picked.month}/ ${picked.year}";
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +55,7 @@ class _UserFormState extends State<UserForm> {
                   "We will not share your information with anyone.",
                   style: TextStyle(
                     fontSize: 14.sp,
-                    color: Color(0xFFBBBBBB),
+                    color: const Color(0xFFBBBBBB),
                   ),
                 ),
                 SizedBox(
@@ -55,6 +68,7 @@ class _UserFormState extends State<UserForm> {
                   ),
                 ),
                 TextField(
+                  keyboardType: TextInputType.number,
                   controller: _phoneController,
                   decoration: const InputDecoration(
                     hintText: "Enter your phone number",
@@ -66,9 +80,9 @@ class _UserFormState extends State<UserForm> {
                   decoration: InputDecoration(
                     hintText: "Date of birth",
                     suffixIcon: IconButton(
-                      onPressed: () {},
-                      // onPressed: () => _selectDateFromPicker(context),
-                      icon: Icon(Icons.calendar_today_outlined),
+                      // onPressed: () {},
+                      onPressed: () => _selectDateFromPicker(context),
+                      icon: const Icon(Icons.calendar_today_outlined),
                     ),
                   ),
                 ),
@@ -78,6 +92,7 @@ class _UserFormState extends State<UserForm> {
                   decoration: InputDecoration(
                     hintText: "Choose your gender",
                     prefixIcon: DropdownButton<String>(
+                      hint: const Text("Select"),
                       items: gender.map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -94,6 +109,7 @@ class _UserFormState extends State<UserForm> {
                   ),
                 ),
                 TextField(
+                  keyboardType: TextInputType.number,
                   controller: _ageController,
                   decoration: const InputDecoration(
                     hintText: "Enter your age",
