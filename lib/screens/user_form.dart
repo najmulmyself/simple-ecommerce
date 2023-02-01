@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_commerce/component/customBtn.dart';
@@ -34,6 +36,24 @@ class _UserFormState extends State<UserForm> {
         },
       );
     }
+  }
+
+  _sendDataToDB() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    var currentUser = _auth.currentUser;
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection("users-form-data");
+    return _collectionRef
+        .doc(currentUser!.email)
+        .set({
+          "name": _nameController.text,
+          "phone": _phoneController.text,
+          "dOB": _dobController.text,
+          "gender": _genderController.text,
+          "age": _ageController.text,
+        })
+        .then((value) => print("User Data Added"))
+        .catchError((e) => print(e));
   }
 
   @override
@@ -122,7 +142,12 @@ class _UserFormState extends State<UserForm> {
                 SizedBox(
                   height: 50.h,
                 ),
-                customButton("Continue", () {})
+                customButton(
+                  "Continue",
+                  () {
+                    _sendDataToDB();
+                  },
+                )
               ],
             ),
           ),

@@ -9,7 +9,7 @@ Widget customButton (String buttonText,onPressed){
     height: 56.h,
     child: ElevatedButton(
       onPressed: onPressed,
-      child: Text(
+      child:Text(
         buttonText,
         style: TextStyle(
             color: Colors.white, fontSize: 18.sp),
