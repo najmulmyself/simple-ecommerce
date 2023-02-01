@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_commerce/component/customBtn.dart';
+import 'package:simple_commerce/screens/bottom_nav_controller.dart';
 
 import '../const/appColors.dart';
 
@@ -52,7 +53,12 @@ class _UserFormState extends State<UserForm> {
           "gender": _genderController.text,
           "age": _ageController.text,
         })
-        .then((value) => print("User Data Added"))
+        .then(
+          (value) => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BottomNavController()),
+          ),
+        )
         .catchError((e) => print(e));
   }
 
