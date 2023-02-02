@@ -10,6 +10,8 @@ class User extends StatefulWidget {
 class _UserState extends State<User> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Text("Profile"),
+    );
   }
 }

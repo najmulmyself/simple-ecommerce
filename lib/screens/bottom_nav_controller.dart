@@ -56,6 +56,7 @@ class _BottomNavControllerState extends State<BottomNavController> {
           });
         },
       ),
+      body: pages[currentIndex],
     );
   }
 }

@@ -10,6 +10,8 @@ class Favourite extends StatefulWidget {
 class _FavouriteState extends State<Favourite> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Text("Favourite"),
+    );
   }
 }
