@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_commerce/component/customBtn.dart';
 import 'package:simple_commerce/screens/bottom_nav_controller.dart';
 
@@ -44,22 +45,19 @@ class _UserFormState extends State<UserForm> {
     var currentUser = _auth.currentUser;
     CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection("users-form-data");
-    return _collectionRef
-        .doc(currentUser!.email)
-        .set({
-          "name": _nameController.text,
-          "phone": _phoneController.text,
-          "dOB": _dobController.text,
-          "gender": _genderController.text,
-          "age": _ageController.text,
-        })
-        .then(
-          (value) => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => BottomNavController()),
-          ),
-        )
-        .catchError((e) => print(e));
+    return _collectionRef.doc(currentUser!.email).set({
+      "name": _nameController.text,
+      "phone": _phoneController.text,
+      "dOB": _dobController.text,
+      "gender": _genderController.text,
+      "age": _ageController.text,
+    }).then((value) {
+      Fluttertoast.showToast(msg: "User Data Added");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNavController()),
+      );
+    }).catchError((e) => print(e));
   }
 
   @override

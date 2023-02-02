@@ -23,6 +23,7 @@ class _BottomNavControllerState extends State<BottomNavController> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey.shade200,
         selectedLabelStyle: const TextStyle(
@@ -50,6 +51,7 @@ class _BottomNavControllerState extends State<BottomNavController> {
         ],
         onTap: (index) {
           setState(() {
+            print(index);
             currentIndex = index;
           });
         },
