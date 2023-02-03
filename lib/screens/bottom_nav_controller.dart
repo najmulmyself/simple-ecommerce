@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_commerce/const/appColors.dart';
 import 'package:simple_commerce/screens/bottom_nav_pages/cart.dart';
 import 'package:simple_commerce/screens/bottom_nav_pages/favourite.dart';
 import 'package:simple_commerce/screens/bottom_nav_pages/home.dart';
@@ -24,8 +25,8 @@ class _BottomNavControllerState extends State<BottomNavController> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey.shade200,
+        selectedItemColor: AppColors.deepOrange,
+        unselectedItemColor: Colors.grey,
         selectedLabelStyle: const TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,
@@ -34,7 +35,7 @@ class _BottomNavControllerState extends State<BottomNavController> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
-            backgroundColor: Colors.grey,
+            // backgroundColor: Colors.grey,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
