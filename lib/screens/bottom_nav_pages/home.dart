@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_commerce/const/appColors.dart';
 
@@ -10,6 +11,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
+  FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
+  List<String> _carouselImages = [];
+
+  fetchCarouselImage() async {
+    QuerySnapshot qn =
+        await firestoreInstance.collection("carousel-slider").get();
+    setState(() {
+      for (int i = 0; i < qn.docs.length; i++) {
+        _carouselImages.add(
+          qn.docs[i]["img-path"],
+        );
+        print(qn.docs[i]["img-path"]);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +35,9 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+              const SizedBox(
+                height: 30,
+              ),
               const Center(
                 child: Text(
                   "ECommerce",
@@ -26,6 +46,9 @@ class _HomeState extends State<Home> {
                     fontSize: 25,
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 30,
               ),
               Row(
                 children: [
@@ -40,7 +63,7 @@ class _HomeState extends State<Home> {
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blue,
+                              color: AppColors.deepOrange,
                             ),
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
@@ -56,15 +79,28 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: const BoxDecoration(
-                      color: AppColors.deepOrange,
-                    ),
-                    child: const Icon(
-                      Icons.search_sharp,
-                      color: Colors.white,
+                  GestureDetector(
+                    onTap: () {
+                      fetchCarouselImage();
+                      // FirebaseFirestore.instance
+                      //     .collection("carousel-slider")
+                      //     .get()
+                      //     .then((qn) {
+                      //   qn.docs.forEach((doc) {
+                      //     print(doc['img-path']);
+                      //   });
+                      // });
+                    },
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: const BoxDecoration(
+                        color: AppColors.deepOrange,
+                      ),
+                      child: const Icon(
+                        Icons.search_sharp,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
