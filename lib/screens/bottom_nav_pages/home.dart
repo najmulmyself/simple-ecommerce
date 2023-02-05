@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_commerce/const/appColors.dart';
 
@@ -37,6 +38,8 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     fetchCarouselImage();
   }
+
+  var dotPosition = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +128,7 @@ class _HomeState extends State<Home> {
                   items: _carouselImages
                       .map(
                         (item) => Container(
-                          margin: const  EdgeInsets.only(left: 10, right: 10),
+                          margin: const EdgeInsets.only(left: 10, right: 10),
                           decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: NetworkImage(item),
@@ -135,11 +138,30 @@ class _HomeState extends State<Home> {
                       )
                       .toList(),
                   options: CarouselOptions(
-                      autoPlay: false,
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.8,
-                      enlargeStrategy: CenterPageEnlargeStrategy.height,
-                      onPageChanged: (val, carouselPageChangedReason) {}),
+                    autoPlay: false,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.8,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    onPageChanged: (val, carouselPageChangedReason) {
+                      setState(() {
+                        dotPosition = val;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DotsIndicator(
+                dotsCount: _carouselImages.length,
+                position: dotPosition.toDouble(),
+                decorator: DotsDecorator(
+                  activeColor: AppColors.deepOrange,
+                  color: AppColors.deepOrange.withOpacity(0.5),
+                  spacing: const EdgeInsets.all(2),
+                  activeSize: const Size(8, 8),
+                  size: const Size(6, 6),
                 ),
               ),
             ],
