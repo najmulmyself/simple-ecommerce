@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_commerce/const/appColors.dart';
@@ -12,19 +13,29 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
-  List<String> _carouselImages = [];
+  final List<String> _carouselImages = [];
 
   fetchCarouselImage() async {
     QuerySnapshot qn =
         await firestoreInstance.collection("carousel-slider").get();
-    setState(() {
-      for (int i = 0; i < qn.docs.length; i++) {
-        _carouselImages.add(
-          qn.docs[i]["img-path"],
-        );
-        print(qn.docs[i]["img-path"]);
-      }
-    });
+    setState(
+      () {
+        for (int i = 0; i < qn.docs.length; i++) {
+          _carouselImages.add(
+            qn.docs[i]["img-path"],
+          );
+          print(
+            qn.docs[i]["img-path"],
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    fetchCarouselImage();
   }
 
   @override
@@ -104,6 +115,32 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              AspectRatio(
+                aspectRatio: 3.5,
+                child: CarouselSlider(
+                  items: _carouselImages
+                      .map(
+                        (item) => Container(
+                          margin: const  EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(item),
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  options: CarouselOptions(
+                      autoPlay: false,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.8,
+                      enlargeStrategy: CenterPageEnlargeStrategy.height,
+                      onPageChanged: (val, carouselPageChangedReason) {}),
+                ),
               ),
             ],
           ),
